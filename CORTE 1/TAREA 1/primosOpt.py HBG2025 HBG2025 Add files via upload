@@ -1,0 +1,154 @@
+# 9) Imprimir los números primos existentes entre 0 y 30
+
+# Define el límite superior del rango de números que vamos a evaluar.
+tope_rango=30
+
+# Inicializa la variable 'n' en 0, que representará el número actual que estamos evaluando.
+n = 0
+
+# Inicializa una bandera (flag) asumiendo por defecto que el número es primo (True).
+primo = True
+
+# Inicia un bucle principal que continuará mientras 'n' sea menor que 30.
+while (n < tope_rango):
+    
+    # Inicia un bucle interno para probar posibles divisores, empezando desde 2 
+    # hasta el número inmediatamente anterior a 'n'.
+    for div in range(2, n):
+        
+        # Si el residuo de la división es 0, significa que encontró un divisor exacto.
+        if (n % div == 0):
+            
+            # Al encontrar un divisor, cambia la bandera a False (no es primo).
+            primo = False
+            
+    # Una vez terminadas todas las divisiones, verifica el estado de la bandera.
+    if (primo):
+        
+        # Si la bandera sigue intacta (True), imprime el número.
+        print(n)
+        
+    # Si la bandera cambió a False (el número no era primo)...
+    else:
+        
+        # Restablece la bandera a True para que el siguiente número tenga un inicio limpio.
+        primo = True
+        
+    # Incrementa la variable 'n' en 1 para pasar a evaluar el siguiente número.
+    n += 1
+
+
+# 10) ¿Se puede mejorar el proceso del punto 9? Utilizar las sentencias break y/ó continue para tal fin
+
+n = 0
+primo = True
+while (n < tope_rango):
+    for div in range(2, n):
+        if (n % div == 0):
+            primo = False
+            
+            # OPTIMIZACIÓN: Al encontrar el primer divisor, ya sabemos que el número no 
+            # es primo. La instrucción 'break' aborta inmediatamente este bucle 'for', 
+            # ahorrando tiempo de procesamiento al no realizar divisiones innecesarias.
+            break
+            
+    if (primo):
+        print(n)
+    else:
+        primo = True
+    n += 1
+
+# 11) En los puntos 9 y 10, se diseñó un código que encuentra números primos y además se lo optimizó. ¿Es posible saber en qué medida se optimizó?
+
+# Crea un contador para registrar cuántas divisiones (ciclos) hace el método original.
+ciclos_sin_break = 0
+n = 0
+primo = True
+while (n < tope_rango):
+    for div in range(2, n):
+        
+        # Por cada vuelta del bucle de divisiones, suma 1 al contador.
+        ciclos_sin_break += 1
+        
+        if (n % div == 0):
+            primo = False
+    if (primo):
+        print(n)
+    else:
+        primo = True
+    n += 1
+    
+# Imprime la cantidad total de divisiones que hizo el programa sin optimizar.
+print('Cantidad de ciclos: ' + str(ciclos_sin_break))
+
+
+# Crea un segundo contador para la versión optimizada.
+ciclos_con_break = 0
+n = 0
+primo = True
+while (n < tope_rango):
+    for div in range(2, n):
+        
+        # Registra cada iteración del bucle optimizado.
+        ciclos_con_break += 1
+        
+        if (n % div == 0):
+            primo = False
+            
+            # El 'break' corta el bucle, por lo que el contador crecerá mucho menos.
+            break
+            
+    if (primo):
+        print(n)
+    else:
+        primo = True
+    n += 1
+    
+# Imprime los ciclos totales usando 'break' para comparar.
+print('Cantidad de ciclos: ' + str(ciclos_con_break))
+
+# Realiza una división entre ambos contadores para calcular la eficiencia. Muestra 
+# matemáticamente qué porcentaje de trabajo se requirió en la versión optimizada 
+# frente a la versión original.
+print('Se optimizó a un ' + str(ciclos_con_break/ciclos_sin_break) + '% de ciclos aplicando break')
+
+# 12) Si la cantidad de números que se evalúa es mayor a treinta, esa optimización crece?
+
+# Se incrementa el rango a 100 para demostrar que a mayor cantidad de datos, 
+# la optimización con 'break' tiene un impacto de ahorro de memoria mucho más masivo.
+tope_rango=100
+
+ciclos_sin_break = 0
+n = 0
+primo = True
+while (n < tope_rango):
+    for div in range(2, n):
+        ciclos_sin_break += 1
+        if (n % div == 0):
+            primo = False
+    if (primo):
+        print(n)
+    else:
+        primo = True
+    n += 1
+print('Cantidad de ciclos: ' + str(ciclos_sin_break))
+
+ciclos_con_break = 0
+n = 0
+primo = True
+while (n < tope_rango):
+    for div in range(2, n):
+        ciclos_con_break += 1
+        if (n % div == 0):
+            primo = False
+            break
+    if (primo):
+        print(n)
+    else:
+        primo = True
+    n += 1
+print('Cantidad de ciclos: ' + str(ciclos_con_break))
+
+# Imprime el nuevo cálculo porcentual. Se notará que el porcentaje será aún menor, 
+# demostrando que la optimización escala y es más eficiente con rangos más grandes.
+print('Se optimizó a un ' + str(ciclos_con_break/ciclos_sin_break) + '% de ciclos aplicando break')
